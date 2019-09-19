@@ -3,9 +3,9 @@ function love.load()
     flux = require "flux"
     flux = require "moonshine"
 
-  gridXCount = 20
-  gridYCount = 15
-  cellSize = 15
+    gridXCount = 20 -- how many cells across
+    gridYCount = 15 -- how many cells up and down
+    cellSize = 40 -- the size of a cell
 
   love.window.setMode(gridXCount * cellSize, gridYCount * cellSize)
 
@@ -131,26 +131,30 @@ function love.draw()
 end
 
 function love.keypressed(key)
-  if key == 'right'
-  and directionQueue[#directionQueue] ~= 'right'
-  and directionQueue[#directionQueue] ~= 'left' then
-    table.insert(directionQueue, 'right')
+    if key == 'right'
+        and directionQueue[#directionQueue] ~= 'right'
+        and directionQueue[#directionQueue] ~= 'left' then
+        table.insert(directionQueue, 'right')
 
-  elseif key == 'left'
-  and directionQueue[#directionQueue] ~= 'left'
-  and directionQueue[#directionQueue] ~= 'right' then
-    table.insert(directionQueue, 'left')
+    elseif key == 'left'
+        and directionQueue[#directionQueue] ~= 'left'
+        and directionQueue[#directionQueue] ~= 'right' then
+        table.insert(directionQueue, 'left')
 
-  elseif key == 'up'
-  and directionQueue[#directionQueue] ~= 'up'
-  and directionQueue[#directionQueue] ~= 'down' then
-    table.insert(directionQueue, 'up')
+    elseif key == 'up'
+        and directionQueue[#directionQueue] ~= 'up'
+        and directionQueue[#directionQueue] ~= 'down' then
+        table.insert(directionQueue, 'up')
 
-  elseif key == 'down'
-  and directionQueue[#directionQueue] ~= 'down'
-  and directionQueue[#directionQueue] ~= 'up' then
-    table.insert(directionQueue, 'down')
-  end
+    elseif key == 'down'
+        and directionQueue[#directionQueue] ~= 'down'
+        and directionQueue[#directionQueue] ~= 'up' then
+        table.insert(directionQueue, 'down')
+
+    elseif key == 'escape' then -- end game with escape
+        love.event.push("quit")
+
+    end
 end
 
 function drawCell(x, y)
