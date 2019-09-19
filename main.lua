@@ -1,7 +1,10 @@
 function love.load()
 
     flux = require "flux"
-    flux = require "moonshine"
+    moonshine = require "moonshine"
+
+    effect = moonshine(moonshine.effects.glow)
+        effect.glow.min_luma = 0.1
 
     gridXCount = 20 -- how many cells across
     gridYCount = 15 -- how many cells up and down
@@ -119,7 +122,7 @@ function love.draw()
 
   for segmentIndex, segment in ipairs(snakeSegments) do
     if snakeAlive then
-      love.graphics.setColor(.6, 1, .32)
+      love.graphics.setColor(.6, 1, .32, (#snakeSegments) * (0.4 / segmentIndex))
     else
       love.graphics.setColor(.5, .5, .5)
     end
@@ -158,5 +161,7 @@ function love.keypressed(key)
 end
 
 function drawCell(x, y)
-  love.graphics.rectangle('fill', (x - 1) * cellSize, (y - 1) * cellSize, cellSize - 1, cellSize - 1)
+    effect.draw(function()
+        love.graphics.rectangle('fill', (x - 1) * cellSize, (y - 1) * cellSize, cellSize - 1, cellSize - 1)
+    end)
 end
