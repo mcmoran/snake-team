@@ -1,16 +1,24 @@
 function love.load()
 
+
+    require "colors"
     flux = require "flux"
     moonshine = require "moonshine"
 
     effect = moonshine(moonshine.effects.glow)
-        effect.glow.min_luma = 0.1
+        effect.glow.min_luma = 0.05
 
     gridXCount = 20 -- how many cells across
     gridYCount = 15 -- how many cells up and down
+    cellCount = gridXCount * gridYCount -- how many cells there are
     cellSize = 40 -- the size of a cell
+    counter = 1
 
   love.window.setMode(gridXCount * cellSize, gridYCount * cellSize)
+
+  -- setting a canvas for the background
+  canvas = love.graphics.newCanvas(gridXCount * cellSize, gridYCount * cellSize)
+  canvas:setFilter('nearest', 'nearest')
 
   snakeSegments = { {x = 3, y = 1},
                     {x = 2, y = 1},
@@ -19,6 +27,9 @@ function love.load()
   timer = 0
   directionQueue = {'right'}
   math.randomseed(os.time())
+
+  tileColor = snakeLevel1[math.random(#snakeLevel1)]
+  fileColorArray = {}
 
   function moveFood()
     local possibleFoodPositions = {}
@@ -35,6 +46,9 @@ function love.load()
 
         if possible then
           table.insert(possibleFoodPositions, {x = foodX, y = foodY})
+          for tileNumber = 1, cellCount do
+              table.insert(fileColorArray, snakeLevel1[math.random(#snakeLevel1)])
+          end
         end
       end
     end
@@ -57,6 +71,8 @@ end
 
 function love.update(dt)
   timer = timer + dt
+
+
 
   if snakeAlive then
     local timerLimit = 0.15
@@ -117,21 +133,55 @@ function love.update(dt)
 end
 
 function love.draw()
-  love.graphics.setColor(.28, .28, .28)
-  love.graphics.rectangle('fill', 0, 0, gridXCount * cellSize, gridYCount * cellSize)
 
-  for segmentIndex, segment in ipairs(snakeSegments) do
+    love.graphics.setBlendMode("alpha")
+
+    -- setting up the grid
+    for row = 1, gridXCount do
+        for column = 1, gridYCount do
+            love.graphics.setColor(0.8, 0.8, 0.8, 1)
+            -- love.graphics.setLineWidth(2)
+            love.graphics.rectangle('line', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
+            love.graphics.setColor(fileColorArray[counter])
+            love.graphics.rectangle('fill', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
+            counter = counter + 1
+        end
+    end
+
+
+    --love.graphics.setColor(.28, .28, .28)
+    --love.graphics.rectangle('fill', 0, 0, gridXCount * cellSize, gridYCount * cellSize)
+    --love.graphics.setColor(.5, .5, .5)
+    --love.graphics.rectangle('line', 0, 0, gridXCount * cellSize, gridYCount * cellSize)
+
+-- setting color for snake and food
+
+
+love.graphics.setCanvas(canvas)
+love.graphics.clear()
+
+for segmentIndex, segment in ipairs(snakeSegments) do
     if snakeAlive then
       love.graphics.setColor(.6, 1, .32, (#snakeSegments) * (0.4 / segmentIndex))
     else
-      love.graphics.setColor(.5, .5, .5)
+      love.graphics.setColor(.5, .5, .5, 1)
     end
     drawCell(segment.x, segment.y)
   end
 
-  love.graphics.setColor(1, .3, .3)
+  -- drawing food
+  love.graphics.setColor(1, .3, .3, 1)
   drawCell(foodPosition.x, foodPosition.y)
-end
+
+  love.graphics.setCanvas()
+  love.graphics.setColor(1, 1, 1)
+  effect.draw(function()
+      love.graphics.draw(canvas, 0, 0, 0, 1, 1)
+  end)
+
+end -- end draw
+
+
 
 function love.keypressed(key)
     if key == 'right'
@@ -161,7 +211,5 @@ function love.keypressed(key)
 end
 
 function drawCell(x, y)
-    effect.draw(function()
         love.graphics.rectangle('fill', (x - 1) * cellSize, (y - 1) * cellSize, cellSize - 1, cellSize - 1)
-    end)
 end
