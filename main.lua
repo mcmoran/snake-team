@@ -31,6 +31,7 @@ function love.load()
   tileColor = snakeLevel1[math.random(#snakeLevel1)]
   fileColorArray = {}
 
+
   function moveFood()
     local possibleFoodPositions = {}
 
@@ -135,18 +136,17 @@ end
 function love.draw()
 
     love.graphics.setBlendMode("alpha")
+        -- setting up the grid
+        for row = 1, gridXCount do
+            for column = 1, gridYCount do
+                love.graphics.setColor(0.8, 0.8, 0.8, 1)
+                love.graphics.rectangle('line', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
+                    love.graphics.setColor(fileColorArray[row * column])
+                love.graphics.rectangle('fill', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
+                counter = counter + 1
+            end
 
-    -- setting up the grid
-    for row = 1, gridXCount do
-        for column = 1, gridYCount do
-            love.graphics.setColor(0.8, 0.8, 0.8, 1)
-            -- love.graphics.setLineWidth(2)
-            love.graphics.rectangle('line', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
-            love.graphics.setColor(fileColorArray[counter])
-            love.graphics.rectangle('fill', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
-            counter = counter + 1
         end
-    end
 
 
     --love.graphics.setColor(.28, .28, .28)
@@ -178,6 +178,8 @@ for segmentIndex, segment in ipairs(snakeSegments) do
   effect.draw(function()
       love.graphics.draw(canvas, 0, 0, 0, 1, 1)
   end)
+
+  love.graphics.print('FPS: '.. tostring(love.timer.getFPS()), 10, 10)
 
 end -- end draw
 
