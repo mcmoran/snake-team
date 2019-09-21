@@ -1,10 +1,37 @@
-    -- setting color values for box
-    colorWhite = {1, 1, 1}
-    colorBlack = {0, 0, 0}
 
 
-    currentColor = color1Sleep
+-- level 1 = greyscale
+    snakeLevel1 = { {0, 0, 0},
+                {.05, .05, .05},
+                {.1, .1, .1},
+                {.15, .15, .15},
+                {.2, .2, .2} }
 
+-- level 2 = yellows
+    snakeLevel2 = { {.09, .08, .03},
+                 {.094, .086, .054},
+                 {.086, .076, .032},
+                 {.082, .07, .047},
+                 {.072, .06, .002},
+                 {.050, .04, 0} }
+
+ -- level 2 = yellows
+     snakeLevel3 = { {.86, .96, .81},
+                     {.67, .94, .61},
+                     {.46, .86, .37},
+                     {.25, .82, .5},
+                     {.15, .74, .4},
+                     {.1, .6, .2} }
+
+ levelMap = { snakeLevel1, snakeLevel2, snakeLevel3 }
+
+overlayArray = {
+    {1, 0, 0, .5},
+    {1, 1, 0, .5},
+    {0, 1, 0, .5},
+    {0, 1, 1, .5},
+    {0, 0, 1, .5}
+    }
 
 -- level 1 = full colors
   colorLevel1 = { {1, 1, 0},
@@ -29,12 +56,7 @@
                   {.71, .47, .8},
                   {1, .51, .43},
                   {1, .71, .53} }
--- level 4 = greyscale
-  snakeLevel1 = { {.8, .8, .8},
-                  {.6, .6, .6},
-                  {.4, .4, .4},
-                  {.2, .2, .2},
-                  {0, 0, 0} }
+
 
  -- level 5 = yellows
   colorLevel5 = { {.96, .94, .8},
@@ -91,8 +113,3 @@
                   {.75, .65, .82},
                   {.99, .82, .79},
                   {.98, .85, .73} }
-
-
-    levelMap = { colorLevel1, colorLevel2, colorLevel3, colorLevel4,
-                colorLevel5, colorLevel6, colorLevel7, colorLevel8,
-                colorLevel9, colorLevel10, colorLevel11 }
