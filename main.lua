@@ -62,10 +62,11 @@ function love.load()
                 -- if it is possible, then place a random food.
                 if possible then
                     table.insert(possibleFoodPositions, {x = foodX, y = foodY})
+
                     -- insert a new tile color array for each food placement
                     tileColorArray = {}
                     for tileNumber = 1, cellCount do
-                        table.insert(tileColorArray, levelMap[1][math.random(1,5)])
+                        table.insert(tileColorArray, levelMap[level][math.random(1,5)])
                         --table.insert(tileColorArray, snakeLevel1[math.random(1,5)])
                     end -- end for
                 end -- end if
@@ -181,7 +182,7 @@ function love.draw()
         levelChange = false
         tileColorArray = {}
         for tileNumber = 1, cellCount do
-            table.insert(tileColorArray, levelMap[1][math.random(1,5)])
+            table.insert(tileColorArray, levelMap[level][math.random(1,5)])
         end -- end for
     end
 
@@ -196,8 +197,9 @@ function love.draw()
 
     end
 
+    -- change the overlay color to a random value when the level changes
     if overlayChange == true then
-        love.graphics.setColor(math.random(.6,.9), math.random(.6,.9), math.random(.6,.9), .5) --overlayArray[level])
+        love.graphics.setColor(math.random(.5, 1), math.random(.5, 1), math.random(.6, 1), .3) --overlayArray[level])
         love.graphics.rectangle('fill', 0, 0, gridXCount * cellSize, gridYCount * cellSize)
         overlayChange = false
     end
