@@ -5,7 +5,7 @@ function love.load()
     flux = require "flux"
     moonshine = require "moonshine"
     effect = moonshine(moonshine.effects.glow)
-        effect.glow.min_luma = 0.01
+        effect.glow.min_luma = 1.5
 
     -- setting up the play area parameters
     gridXCount = 20 -- how many cells across
@@ -42,7 +42,7 @@ function love.load()
     level = 1
     foodLevel = 1
     levelChange = true
-    overlayChange = true
+    colorLevel = 1
 
     -- loading the music and audio files
     bgMusic = love.audio.newSource('Sports.wav', 'stream')
@@ -87,6 +87,10 @@ function love.load()
         foodLevel = foodLevel + 1
         if foodLevel == 5 then
             level = level + 1
+            colorLevel = colorLevel + 1
+            if colorLevel > 9 then
+                colorLevel = 1
+            end
             foodLevel = 1
             levelChange = true
         end
@@ -102,6 +106,7 @@ function love.load()
         snakeAlive = true
         timer = 0
         level = 1
+        colorLevel = 1
         foodLevel = 1
         moveFood()
     end -- end function
@@ -188,7 +193,7 @@ function love.draw()
         levelChange = false
         tileColorArray = {}
         for tileNumber = 1, cellCount do
-            table.insert(tileColorArray, levelMap[level][math.random(1,5)])
+            table.insert(tileColorArray, levelMap[colorLevel][math.random(1,5)])
         end -- end for
     end
 
@@ -204,11 +209,11 @@ function love.draw()
     end
 
     -- change the overlay color to a random value when the level changes
-    if overlayChange == true then
-        love.graphics.setColor(math.random(.5, 1), math.random(.5, 1), math.random(.6, 1), .3) --overlayArray[level])
-        love.graphics.rectangle('fill', 0, 0, gridXCount * cellSize, gridYCount * cellSize)
-        overlayChange = false
-    end
+    --if overlayChange == true then
+--        love.graphics.setColor(math.random(.5, 1), math.random(.5, 1), math.random(.6, 1), .3) --overlayArray[level])
+    --    love.graphics.rectangle('fill', 0, 0, gridXCount * cellSize, gridYCount * cellSize)
+    --    overlayChange = false
+    --end
 
     -- setting a canvas for the snake and food
     love.graphics.setCanvas(canvas)
@@ -217,9 +222,9 @@ function love.draw()
     -- draw the snake with trailing tail
     for segmentIndex, segment in ipairs(snakeSegments) do
         if snakeAlive then
-            love.graphics.setColor(0, 0, 1, (#snakeSegments) * (0.7 / segmentIndex))
+            love.graphics.setColor(.5, .5, 0, (#snakeSegments) * (0.9 / segmentIndex))
         else
-            love.graphics.setColor(.5, .5, .5, 1)
+            love.graphics.setColor(1, 0, 0)
         end
         drawCell(segment.x, segment.y)
     end
