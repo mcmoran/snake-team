@@ -189,7 +189,6 @@ function love.draw()
 
     -- if the level hasn't changed, then don't re-draw the grid
     if levelChange == true then
-        overlayChange = true
         levelChange = false
         tileColorArray = {}
         for tileNumber = 1, cellCount do
