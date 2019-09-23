@@ -44,6 +44,12 @@ function love.load()
     levelChange = true
     overlayChange = true
 
+    -- loading the music and audio files
+    bgMusic = love.audio.newSource('Sports.wav', 'stream')
+        bgMusic:setLooping(true)
+        bgMusic:setVolume(0.1)
+        bgMusic:play()
+
     -- function to move the food
     function moveFood()
         local possibleFoodPositions = {}
