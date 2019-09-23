@@ -23,7 +23,7 @@
                      {.15, .74, .4},
                      {.1, .6, .2} }
 
- levelMap = { snakeLevel1, snakeLevel2, snakeLevel3 }
+ levelMap = { snakeLevel1, snakeLevel2, snakeLevel3, snakeLevel4, snakeLevel5, snakeLevel6, snakeLevel7, snakeLevel8, snakeLevel9 }
 
 overlayArray = {
     {1, 0, 0, .5},
@@ -50,7 +50,7 @@ overlayArray = {
                   {.98, .54, .09} }
 
 -- level 3 = pastelle rainbow
-  colorLevel3 = { {.96, .91, .47},
+  snakeLevel4 = { {.96, .91, .47},
                   {.51, .96, .55},
                   {.48, .65, .87},
                   {.71, .47, .8},
@@ -59,7 +59,7 @@ overlayArray = {
 
 
  -- level 5 = yellows
-  colorLevel5 = { {.96, .94, .8},
+  snakeLevel5 = { {.96, .94, .8},
                   {.94, .86, .54},
                   {.86, .76, .32},
                   {.82, .7, .47},
@@ -75,7 +75,7 @@ overlayArray = {
                   {.1, .6, .2} }
 
  -- level 7 = blues
-  colorLevel7 = { {.81, .9, .96},
+  snakeLevel6 = { {.81, .9, .96},
                   {.59, .8, .94},
                   {.37, .69, .86},
                   {.17, .61, .82},
@@ -83,7 +83,7 @@ overlayArray = {
                   {0, .3, .6} }
 
  -- level 8 = purples
-  colorLevel8 = { {.88, .83, .96},
+  snakeLevel7 = { {.88, .83, .96},
                   {.76, .61, .94},
                   {.57, .36, .86},
                   {.43, .17, .82},
@@ -91,7 +91,7 @@ overlayArray = {
                   {.2, 0, .5} }
 
  -- level 9 = reds
-  colorLevel9 = { {.93, .95, .85},
+ snakeLevel8 = { {.93, .95, .85},
                   {.94, .61, .63},
                   {.85, .36, .38},
                   {.82, .18, .22},

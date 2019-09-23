@@ -70,11 +70,11 @@ function love.load()
                     table.insert(possibleFoodPositions, {x = foodX, y = foodY})
 
                     -- insert a new tile color array for each food placement
-                    tileColorArray = {}
-                    for tileNumber = 1, cellCount do
-                        table.insert(tileColorArray, levelMap[level][math.random(1,5)])
+                    --tileColorArray = {}
+                    --for tileNumber = 1, cellCount do
+                    --    table.insert(tileColorArray, levelMap[level][math.random(1,5)])
                         --table.insert(tileColorArray, snakeLevel1[math.random(1,5)])
-                    end -- end for
+                    --end -- end for
                 end -- end if
             end -- end for foodY
 
