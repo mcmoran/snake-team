@@ -1,7 +1,7 @@
 function love.load()
 
+    -- index for color rotation on food
     i = 1
-
 
     -- set the requirements
     require "colors"
@@ -10,20 +10,20 @@ function love.load()
     effect = moonshine(moonshine.effects.glow)
         effect.glow.min_luma = 1.5
 
-    effect2 = moonshine(moonshine.effects.scanlines)
-        effect2.scanlines.width = 5
-        effect2.scanlines.opacity = 0.1
-        effect2.scanlines.color = {0,0,0}
-
     -- setting up the play area parameters
     gridXCount = 20 -- how many cells across
     gridYCount = 15 -- how many cells up and down
     cellCount = gridXCount * gridYCount -- how many cells there are
     cellSize = 40 -- the size of a cell
+
+    -- rotation variables
     ox = cellSize / 2
     oy = cellSize / 2
     a = 0
-    rfactor = 1
+    rfactor = 0.75
+
+    -- creating a food table object
+    food = {x = 0, y = 0}
 
     -- size of the window
     love.window.setMode(gridXCount * cellSize, gridYCount * cellSize)
@@ -95,6 +95,7 @@ function love.load()
 
         -- setting the new food position
         foodPosition = possibleFoodPositions[math.random(#possibleFoodPositions)]
+        foodFlux(rotateRect, foodPosition.x, foodPosition.y)
 
         -- adding a new food level and overall level
         if foodLevel == 5 then
@@ -139,6 +140,8 @@ end
 
 ----------------------------------------------------------------------------
 function love.update(dt)
+
+    flux.update(dt)
 
   a = math.rad(math.floor(math.deg(a + rfactor * dt * 9)))
 
@@ -259,9 +262,9 @@ function love.draw()
 
     -- drawing food
 
-        love.graphics.setColor(lineColorArray[i])
-        --drawCell(foodPosition.x, foodPosition.y)
-        rotateRect('fill', (foodPosition.x - 1) * cellSize, (foodPosition.y - 1) * cellSize, cellSize, cellSize, a, ox, oy)
+    love.graphics.setColor(lineColorArray[i])
+    --drawCell(foodPosition.x, foodPosition.y)
+    rotateRect('fill', (foodPosition.x - 1) * cellSize, (foodPosition.y - 1) * cellSize, cellSize, cellSize, a, ox, oy)
 
 
     love.graphics.setCanvas()
@@ -326,4 +329,8 @@ function rotateRect(mode, x, y, w, h, a, ox, oy)
   love.graphics.rotate(a)
   love.graphics.rectangle(mode, -ox, -oy, w, h)
   love.graphics.pop()
+end
+
+function foodFlux(obj, fx, fy)
+    flux.to(obj, 1, {x = fx}, {y = fy})
 end
