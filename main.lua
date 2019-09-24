@@ -261,7 +261,7 @@ function love.draw()
 
         love.graphics.setColor(lineColorArray[i])
         --drawCell(foodPosition.x, foodPosition.y)
-        rotateRect('fill', foodPosition.x, foodPosition.y, cellSize, cellSize, a, ox, oy)
+        rotateRect('fill', (foodPosition.x - 1) * cellSize, (foodPosition.y - 1) * cellSize, cellSize, cellSize, a, ox, oy)
 
 
     love.graphics.setCanvas()
@@ -322,7 +322,7 @@ function rotateRect(mode, x, y, w, h, a, ox, oy)
   oy = oy or 0
   a = a or 0
   love.graphics.push()
-  love.graphics.translate(x, y)
+  love.graphics.translate(x + w / 2, y + h / 2)
   love.graphics.rotate(a)
   love.graphics.rectangle(mode, -ox, -oy, w, h)
   love.graphics.pop()
