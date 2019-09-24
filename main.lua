@@ -1,5 +1,7 @@
 function love.load()
 
+    i = 1
+
     -- set the requirements
     require "colors"
     flux = require "flux"
@@ -7,7 +9,10 @@ function love.load()
     effect = moonshine(moonshine.effects.glow)
         effect.glow.min_luma = 1.5
 
-    effect2 = moonshine(moonshine.effects.filmgrain)
+    effect2 = moonshine(moonshine.effects.scanlines)
+        effect2.scanlines.width = 5
+        effect2.scanlines.opacity = 0.1
+        effect2.scanlines.color = {0,0,0}
 
     -- setting up the play area parameters
     gridXCount = 20 -- how many cells across
@@ -129,7 +134,13 @@ end
 
 ----------------------------------------------------------------------------
 function love.update(dt)
+
     timer = timer + dt
+
+    i = i + 1
+    if i > 5 then
+        i = 1
+    end
 
     -- starting the loop of the game
     if snakeAlive then
@@ -210,24 +221,20 @@ function love.draw()
     end
 
     -- setting up the grid
+
     for row = 1, gridXCount do
         for column = 1, gridYCount do
-            --effect2.draw(function() -- trying to do some film grain
+
             love.graphics.setColor(tileColorArray[row * column]) -- set box color
             love.graphics.rectangle('fill', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
                 love.graphics.setColor(lineColorArray[level]) -- set border color
                 love.graphics.rectangle('line', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
-            --end)
+
         end
 
     end
 
-    -- change the overlay color to a random value when the level changes
-    --if overlayChange == true then
---        love.graphics.setColor(math.random(.5, 1), math.random(.5, 1), math.random(.6, 1), .3) --overlayArray[level])
-    --    love.graphics.rectangle('fill', 0, 0, gridXCount * cellSize, gridYCount * cellSize)
-    --    overlayChange = false
-    --end
+
 
     -- setting a canvas for the snake and food
     love.graphics.setCanvas(canvas)
@@ -244,8 +251,10 @@ function love.draw()
     end
 
     -- drawing food
-    love.graphics.setColor(1, 1, 1, 1)
-    drawCell(foodPosition.x, foodPosition.y)
+
+        love.graphics.setColor(lineColorArray[i])
+        drawCell(foodPosition.x, foodPosition.y)
+
 
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1)
