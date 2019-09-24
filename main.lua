@@ -95,7 +95,7 @@ function love.load()
 
         -- setting the new food position
         foodPosition = possibleFoodPositions[math.random(#possibleFoodPositions)]
-        foodFlux(rotateRect, foodPosition.x, foodPosition.y)
+        foodFlux(food, foodPosition.x, foodPosition.y) -- this doesn't work, but it should flux the food location
 
         -- adding a new food level and overall level
         if foodLevel == 5 then
