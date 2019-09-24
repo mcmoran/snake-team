@@ -2,6 +2,7 @@ function love.load()
 
     i = 1
 
+
     -- set the requirements
     require "colors"
     flux = require "flux"
@@ -19,6 +20,10 @@ function love.load()
     gridYCount = 15 -- how many cells up and down
     cellCount = gridXCount * gridYCount -- how many cells there are
     cellSize = 40 -- the size of a cell
+    ox = cellSize / 2
+    oy = cellSize / 2
+    a = 0
+    rfactor = 1
 
     -- size of the window
     love.window.setMode(gridXCount * cellSize, gridYCount * cellSize)
@@ -134,6 +139,8 @@ end
 
 ----------------------------------------------------------------------------
 function love.update(dt)
+
+  a = math.rad(math.floor(math.deg(a + rfactor * dt * 9)))
 
     timer = timer + dt
 
@@ -253,7 +260,8 @@ function love.draw()
     -- drawing food
 
         love.graphics.setColor(lineColorArray[i])
-        drawCell(foodPosition.x, foodPosition.y)
+        --drawCell(foodPosition.x, foodPosition.y)
+        rotateRect('fill', foodPosition.x, foodPosition.y, cellSize, cellSize, a, ox, oy)
 
 
     love.graphics.setCanvas()
@@ -266,6 +274,8 @@ function love.draw()
     love.graphics.print('Level: ' .. level, 10, 20)
     love.graphics.print('Food: ' .. foodLevel, 10, 30)
     love.graphics.print('Speed: ' .. speedLevel, 10, 40)
+    love.graphics.print('XPosition: ' .. foodPosition.x, 10, 50)
+    love.graphics.print('YPosition: ' .. foodPosition.y, 10, 60)
     --if overlayChange == true then
     --    love.graphics.print('Overlay: true', 10, 40)
     --else love.graphics.print('Overlay: false', 10, 40)
@@ -305,4 +315,15 @@ end
 ----------------------------------------------------------------------------
 function drawCell(x, y)
     love.graphics.rectangle('fill', (x - 1) * cellSize, (y - 1) * cellSize, cellSize - 1, cellSize - 1)
+end
+
+function rotateRect(mode, x, y, w, h, a, ox, oy)
+  ox = ox or 0
+  oy = oy or 0
+  a = a or 0
+  love.graphics.push()
+  love.graphics.translate(x, y)
+  love.graphics.rotate(a)
+  love.graphics.rectangle(mode, -ox, -oy, w, h)
+  love.graphics.pop()
 end
