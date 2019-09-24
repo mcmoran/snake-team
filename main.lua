@@ -85,7 +85,7 @@ function love.load()
         foodPosition = possibleFoodPositions[math.random(#possibleFoodPositions)]
 
         -- adding a new food level and overall level
-        if foodLevel == 3 then
+        if foodLevel == 5 then
             level = level + 1
             colorLevel = colorLevel + 1
             if colorLevel > 8 then
