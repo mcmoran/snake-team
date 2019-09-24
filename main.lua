@@ -184,7 +184,7 @@ function love.update(dt)
                 snakeAlive = false
             end
         end
-    elseif timer >= 2 then
+    elseif timer >= 4 then
         reset()
     end -- end game loop
 end -- end update function
