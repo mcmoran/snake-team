@@ -210,10 +210,10 @@ function love.draw()
     -- setting up the grid
     for row = 1, gridXCount do
         for column = 1, gridYCount do
-            love.graphics.setColor(0.1, 0.1, 0.1, 1) -- set border color
-            love.graphics.rectangle('line', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
             love.graphics.setColor(tileColorArray[row * column]) -- set box color
             love.graphics.rectangle('fill', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
+                love.graphics.setColor(lineColorArray[level]) -- set border color
+                love.graphics.rectangle('line', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
         end
 
     end

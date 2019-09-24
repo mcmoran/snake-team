@@ -65,3 +65,12 @@ levelMap = {    snakeLevel1,
                 snakeLevel7,
                 snakeLevel8,
                 snakeLevel9 }
+
+lineColorArray = { {0, 0, 0, 1},
+                { 1, 1, 1, 1},
+                { 0, 1, 1, 1},
+                { 0, 0, 1, 1},
+                { 1, 1, 0, 1},
+                { 0, 1, 1, 1},
+                { 1, 0, 1, 1},
+                { 1, 0, 0, 1} }
