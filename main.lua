@@ -7,6 +7,8 @@ function love.load()
     effect = moonshine(moonshine.effects.glow)
         effect.glow.min_luma = 1.5
 
+    effect2 = moonshine(moonshine.effects.filmgrain)
+
     -- setting up the play area parameters
     gridXCount = 20 -- how many cells across
     gridYCount = 15 -- how many cells up and down
@@ -210,10 +212,12 @@ function love.draw()
     -- setting up the grid
     for row = 1, gridXCount do
         for column = 1, gridYCount do
+            --effect2.draw(function() -- trying to do some film grain
             love.graphics.setColor(tileColorArray[row * column]) -- set box color
             love.graphics.rectangle('fill', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
                 love.graphics.setColor(lineColorArray[level]) -- set border color
                 love.graphics.rectangle('line', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
+            --end)
         end
 
     end
