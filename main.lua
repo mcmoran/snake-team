@@ -35,14 +35,15 @@ function love.load()
     math.randomseed(os.time())
 
     -- setting up the color variables
-    --tileColor = snakeLevel1[math.random(#snakeLevel1)]
     tileColorArray = {} -- empty array for random colors
 
     -- game levels
     level = 1
-    foodLevel = 1
+    foodLevel = 0
     levelChange = true
     colorLevel = 1
+    speedLevel = 0 -- the speed increases every time the levels cycle
+    speedChange = false
 
     -- loading the music and audio files
     bgMusic = love.audio.newSource('Sports.wav', 'stream')
@@ -84,15 +85,21 @@ function love.load()
         foodPosition = possibleFoodPositions[math.random(#possibleFoodPositions)]
 
         -- adding a new food level and overall level
-        foodLevel = foodLevel + 1
-        if foodLevel == 5 then
+        if foodLevel == 3 then
             level = level + 1
             colorLevel = colorLevel + 1
-            if colorLevel > 9 then
+            if colorLevel > 8 then
+                speedChange = true
                 colorLevel = 1
             end
             foodLevel = 1
             levelChange = true
+        end
+        foodLevel = foodLevel + 1
+
+        if speedChange == true then
+            speedLevel = speedLevel + 0.02
+            speedChange = false
         end
 
     end -- end move food function
@@ -108,6 +115,7 @@ function love.load()
         level = 1
         colorLevel = 1
         foodLevel = 1
+        speedLevel = 0
         moveFood()
     end -- end function
 
@@ -120,7 +128,7 @@ function love.update(dt)
 
     -- starting the loop of the game
     if snakeAlive then
-        local timerLimit = 0.15
+        local timerLimit = 0.15 - speedLevel
         if timer >= timerLimit then
             timer = timer - timerLimit
 
@@ -241,10 +249,11 @@ function love.draw()
     love.graphics.print('FPS: '.. tostring(love.timer.getFPS()), 10, 10)
     love.graphics.print('Level: ' .. level, 10, 20)
     love.graphics.print('Food: ' .. foodLevel, 10, 30)
-    if overlayChange == true then
-        love.graphics.print('Overlay: true', 10, 40)
-    else love.graphics.print('Overlay: false', 10, 40)
-    end
+    love.graphics.print('Speed: ' .. speedLevel, 10, 40)
+    --if overlayChange == true then
+    --    love.graphics.print('Overlay: true', 10, 40)
+    --else love.graphics.print('Overlay: false', 10, 40)
+    --end
 
 end -- end draw
 

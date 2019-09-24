@@ -1,18 +1,18 @@
 
 
 -- level 1 = greyscale
-snakeLevel10 = { {0, 0, 0},
+snakeLevel1 = { {0, 0, 0},
             {.067, .067, .067},
             {.133, .133, .133},
             {.2, .2, .2},
             {.267, .267, .267} }
 
--- level 2 = reds
-snakeLevel2 = { {.5, 0, 0},
-            {.5, .067, .067},
-            {.5, .133, .133},
-            {.5, .2, .2},
-            {.5, .267, .267} }
+-- level 2 = light gray
+snakeLevel2 = { {.3, .3, .3},
+               {.35, .35, .35},
+               {.4, .4, .4},
+               {.45, .45, .45},
+               {.5, .5, .5} }
 
  -- level 3 = greens
 snakeLevel3 = { {0, .5, 0},
@@ -28,9 +28,8 @@ snakeLevel3 = { {0, .5, 0},
               {.2, .2, .5},
               {.267, .267, .5} }
 
-
  -- level 5 = yellows
-  snakeLevel5 = { {.5, .5, 0},
+snakeLevel5 = { {.5, .5, 0},
               {.5, .5, .067},
               {.5, .5, .133},
               {.5, .5, .2},
@@ -44,50 +43,25 @@ snakeLevel6 = { {0, .5, .5},
                 {.267, .5, .5} }
 
  -- level 7 = purples
-  snakeLevel7 = { {.5, 0, .5},
+snakeLevel7 = { {.5, 0, .5},
               {.5, .067, .5},
               {.5, .133, .5},
               {.5, .2, .5},
               {.5, .267, .5} }
 
- -- level 9 = light gray
- snakeLevel9 = { {.3, .3, .3},
-                {.35, .35, .35},
-                {.4, .4, .4},
-                {.45, .45, .45},
-                {.5, .5, .5} }
+ -- level 8 = reds
+ snakeLevel8 = { {.5, 0, 0},
+                {.5, .067, .067},
+                {.5, .133, .133},
+                {.5, .2, .2},
+                {.5, .267, .267} }
 
- -- level 10 = oranges
-  snakeLevel1 = { {0, 0, 0},
-              {.067, .067, .067},
-              {.133, .133, .133},
-              {.2, .2, .2},
-              {.267, .267, .267} }
-
--- level 11 = light rainbow
-  snakeLevel10 = { {.96, .92, .72},
-                  {.73, .96, .78},
-                  {.69, .77, .87},
-                  {.75, .65, .82},
-                  {.99, .82, .79},
-                  {.98, .85, .73} }
-
-
-
- -- level 1 = full colors
-   snakeLevel11 = { {1, 1, 0},
-                   {0, 1, 0},
-                   {0, 1, 1},
-                   {1, 0, 1},
-                   {1, 0, 0},
-                   {1, 0.5, 0} }
-
- -- level 2 = bright rainbow
-snakeLevel12 = { {.96, .90, .23},
-                   {.28, .95, .2},
-                   {.21, .69, 1},
-                   {.67, .26, .8},
-                   {1, .23, .16},
-                   {.98, .54, .09} }
-
-levelMap = { snakeLevel1, snakeLevel2, snakeLevel3, snakeLevel4, snakeLevel5, snakeLevel6, snakeLevel7, snakeLevel8, snakeLevel9 }
+levelMap = {    snakeLevel1,
+                snakeLevel2,
+                snakeLevel3,
+                snakeLevel4,
+                snakeLevel5,
+                snakeLevel6,
+                snakeLevel7,
+                snakeLevel8,
+                snakeLevel9 }
