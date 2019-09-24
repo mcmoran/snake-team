@@ -92,6 +92,9 @@ function love.load()
                 speedChange = true
                 colorLevel = 1
             end
+            if colorLevel == 4 then
+                speedChange = true
+            end
             foodLevel = 1
             levelChange = true
         end
