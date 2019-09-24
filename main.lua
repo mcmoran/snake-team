@@ -5,6 +5,7 @@ function love.load()
 
     -- set the requirements
     require "colors"
+    require "text"
     flux = require "flux"
     moonshine = require "moonshine"
     effect = moonshine(moonshine.effects.glow)
@@ -273,16 +274,20 @@ function love.draw()
         love.graphics.draw(canvas, 0, 0, 0, 1, 1)
     end)
 
-    love.graphics.print('FPS: '.. tostring(love.timer.getFPS()), 10, 10)
-    love.graphics.print('Level: ' .. level, 10, 20)
-    love.graphics.print('Food: ' .. foodLevel, 10, 30)
-    love.graphics.print('Speed: ' .. speedLevel, 10, 40)
-    love.graphics.print('XPosition: ' .. foodPosition.x, 10, 50)
-    love.graphics.print('YPosition: ' .. foodPosition.y, 10, 60)
+    love.graphics.setColor(1, 1, 1, .8)
+    love.graphics.setFont(mainFont)
+    -- love.graphics.print('FPS: '.. tostring(love.timer.getFPS()), 10, 10)
+    love.graphics.print('level: ' .. level, 10, 20)
+    love.graphics.print('food eaten: ' .. foodLevel, 10, 50)
+    love.graphics.print('snake speed: ' .. speedLevel, 10, 90)
+    --love.graphics.print('XPosition: ' .. foodPosition.x, 10, 50)
+    --love.graphics.print('YPosition: ' .. foodPosition.y, 10, 60)
     --if overlayChange == true then
     --    love.graphics.print('Overlay: true', 10, 40)
     --else love.graphics.print('Overlay: false', 10, 40)
     --end
+
+
 
 end -- end draw
 
