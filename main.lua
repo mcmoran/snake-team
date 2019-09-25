@@ -200,11 +200,22 @@ function love.update(dt)
                 snakeAlive = false
             end
         end
-    elseif timer >= 4 then -- waiting for the game to reset
 
+            love.graphics.setColor(1, 1, 1, .5)
+            love.graphics.setFont(bigFont)
+            love.graphics.print("GAME OVER!", 400, 400)
+
+    elseif timer >= 3 then -- waiting for the game to reset
+
+        --love.graphics.setColor(1, 1, 1, .5)
+        --love.graphics.setFont(bigFont)
+        --love.graphics.print("GAME OVER!", 400, 400)
+
+        --if timer >= 5 then
         -- this is where some mid-game animation should happen or "game over" text
 
-        reset()
+    reset()
+        --end
     end -- end game loop
 end -- end update function
 
@@ -262,18 +273,18 @@ function love.draw()
     love.graphics.setColor(1, 1, 1, .5)
     love.graphics.setFont(mainFont)
     love.graphics.print('level', 10, 5)
+    love.graphics.print('speed', 100, 5)
     love.graphics.print('length', 700, 5)
-    love.graphics.print('speed', 10, 85)
 
     love.graphics.setFont(bigFont)
     love.graphics.print(level, 30, 30)
+    love.graphics.print(speed + 1, 120, 30)
     if foodEaten < 10 then
         love.graphics.print('0'..foodEaten + 2, 710, 30)
     else
         love.graphics.print(foodEaten + 2, 710, 30)
     end
     --love.graphics.print(foodEaten + 2, 710, 30)
-    love.graphics.print(speed + 1, 35, 120)
 
 end -- end draw
 
