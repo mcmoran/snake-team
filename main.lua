@@ -1,8 +1,5 @@
 function love.load()
 
-    -- index for color rotation on food
-    i = 1
-
     -- set the requirements
     require "colors"
     require "text"
@@ -17,15 +14,6 @@ function love.load()
     cellCount = gridXCount * gridYCount -- how many cells there are
     cellSize = 40 -- the size of a cell
 
-    -- rotation variables
-    ox = cellSize / 2
-    oy = cellSize / 2
-    a = 0
-    rfactor = 0.75
-
-    -- creating a food table object
-    food = {x = 0, y = 0}
-
     -- size of the window
     love.window.setMode(gridXCount * cellSize, gridYCount * cellSize)
 
@@ -33,9 +21,14 @@ function love.load()
     canvas = love.graphics.newCanvas(gridXCount * cellSize, gridYCount * cellSize)
     canvas:setFilter('nearest', 'nearest')
 
-    -- setting a canvas for a color overlay on the background
-    --overlay = love.graphics.newCanvas(gridXCount * cellSize, gridYCount * cellSize)
-    --overlay:setFilter('nearest', 'nearest')
+    -- rotation variables
+    ox = cellSize / 2
+    oy = cellSize / 2
+    a = 0
+    rfactor = 0.75 -- rotation speed
+
+    -- creating a food table object
+    food = {x = 0, y = 0}
 
     -- segments of the snake to start the game (3 of them)
     snakeSegments = { {x = 3, y = 1},
@@ -53,15 +46,20 @@ function love.load()
     -- game levels
     level = 1
     foodLevel = 0
+    foodEaten = 0
     levelChange = true
     colorLevel = 1
     speedLevel = 0 -- the speed increases every time the levels cycle
+    speed = 0
     speedChange = false
+
+    -- index for color rotation on food
+    i = 1
 
     -- loading the music and audio files
     bgMusic = love.audio.newSource('Sports.wav', 'stream')
         bgMusic:setLooping(true)
-        bgMusic:setVolume(0.1)
+        bgMusic:setVolume(0.2)
         bgMusic:play()
 
     -- function to move the food
@@ -82,42 +80,31 @@ function love.load()
                 -- if it is possible, then place a random food.
                 if possible then
                     table.insert(possibleFoodPositions, {x = foodX, y = foodY})
-
-                    -- insert a new tile color array for each food placement
-                    --tileColorArray = {}
-                    --for tileNumber = 1, cellCount do
-                    --    table.insert(tileColorArray, levelMap[level][math.random(1,5)])
-                        --table.insert(tileColorArray, snakeLevel1[math.random(1,5)])
-                    --end -- end for
                 end -- end if
             end -- end for foodY
-
         end -- end for foodX
 
         -- setting the new food position
         foodPosition = possibleFoodPositions[math.random(#possibleFoodPositions)]
         foodFlux(food, foodPosition.x, foodPosition.y) -- this doesn't work, but it should flux the food location
 
-        -- adding a new food level and overall level
+        -- after X food eaten, increase the levels
+
+        -- increase level and colorLevel
         if foodLevel == 5 then
+            foodLevel = 0
             level = level + 1
-            colorLevel = colorLevel + 1
-            if colorLevel > 8 then
-                speedChange = true
-                colorLevel = 1
-            end
-            if colorLevel == 4 then
-                speedChange = true
-            end
-            foodLevel = 1
             levelChange = true
         end
-        foodLevel = foodLevel + 1
 
-        if speedChange == true then
+        -- increase speed every 3 levels
+        if level % 3 == 0 then
             speedLevel = speedLevel + 0.02
-            speedChange = false
+            speed = speed + 1
         end
+
+        foodLevel = foodLevel + 1
+        foodEaten = foodEaten + 1
 
     end -- end move food function
 
@@ -130,9 +117,10 @@ function love.load()
         snakeAlive = true
         timer = 0
         level = 1
-        colorLevel = 1
-        foodLevel = 1
+        foodLevel = 0
         speedLevel = 0
+        foodEaten = 0
+        speed = 0
         moveFood()
     end -- end function
 
@@ -142,11 +130,12 @@ end
 ----------------------------------------------------------------------------
 function love.update(dt)
 
+    timer = timer + dt
     flux.update(dt)
 
-  a = math.rad(math.floor(math.deg(a + rfactor * dt * 9)))
+    -- math for the food rotation
+    a = math.rad(math.floor(math.deg(a + rfactor * dt * 9)))
 
-    timer = timer + dt
 
     i = i + 1
     if i > 5 then
@@ -155,7 +144,7 @@ function love.update(dt)
 
     -- starting the loop of the game
     if snakeAlive then
-        local timerLimit = 0.15 - speedLevel
+        local timerLimit = 0.15 - speedLevel -- time between moves
         if timer >= timerLimit then
             timer = timer - timerLimit
 
@@ -211,7 +200,10 @@ function love.update(dt)
                 snakeAlive = false
             end
         end
-    elseif timer >= 4 then
+    elseif timer >= 4 then -- waiting for the game to reset
+
+        -- this is where some mid-game animation should happen or "game over" text
+
         reset()
     end -- end game loop
 end -- end update function
@@ -232,20 +224,14 @@ function love.draw()
     end
 
     -- setting up the grid
-
     for row = 1, gridXCount do
         for column = 1, gridYCount do
-
             love.graphics.setColor(tileColorArray[row * column]) -- set box color
             love.graphics.rectangle('fill', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
                 love.graphics.setColor(lineColorArray[level]) -- set border color
                 love.graphics.rectangle('line', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
-
         end
-
     end
-
-
 
     -- setting a canvas for the snake and food
     love.graphics.setCanvas(canvas)
@@ -262,37 +248,39 @@ function love.draw()
     end
 
     -- drawing food
-
     love.graphics.setColor(lineColorArray[i])
-    --drawCell(foodPosition.x, foodPosition.y)
+    --drawCell(foodPosition.x, foodPosition.y) -- this is the old way
     rotateRect('fill', (foodPosition.x - 1) * cellSize, (foodPosition.y - 1) * cellSize, cellSize, cellSize, a, ox, oy)
 
-
+    -- adding the glow effect to the canvas
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1)
     effect.draw(function()
         love.graphics.draw(canvas, 0, 0, 0, 1, 1)
     end)
 
-    love.graphics.setColor(1, 1, 1, .8)
+    love.graphics.setColor(1, 1, 1, .5)
     love.graphics.setFont(mainFont)
-    -- love.graphics.print('FPS: '.. tostring(love.timer.getFPS()), 10, 10)
-    love.graphics.print('level: ' .. level, 10, 20)
-    love.graphics.print('food eaten: ' .. foodLevel, 10, 50)
-    love.graphics.print('snake speed: ' .. speedLevel, 10, 90)
-    --love.graphics.print('XPosition: ' .. foodPosition.x, 10, 50)
-    --love.graphics.print('YPosition: ' .. foodPosition.y, 10, 60)
-    --if overlayChange == true then
-    --    love.graphics.print('Overlay: true', 10, 40)
-    --else love.graphics.print('Overlay: false', 10, 40)
-    --end
+    love.graphics.print('level', 10, 5)
+    love.graphics.print('length', 700, 5)
+    love.graphics.print('speed', 10, 85)
 
-
+    love.graphics.setFont(bigFont)
+    love.graphics.print(level, 30, 30)
+    if foodEaten < 10 then
+        love.graphics.print('0'..foodEaten + 2, 710, 30)
+    else
+        love.graphics.print(foodEaten + 2, 710, 30)
+    end
+    --love.graphics.print(foodEaten + 2, 710, 30)
+    love.graphics.print(speed + 1, 35, 120)
 
 end -- end draw
 
-
+-- other random functions down here
 ----------------------------------------------------------------------------
+
+-- keypress function for the snake movement
 function love.keypressed(key)
     if key == 'right'
         and directionQueue[#directionQueue] ~= 'right'
@@ -320,11 +308,12 @@ function love.keypressed(key)
     end
 end
 
-----------------------------------------------------------------------------
+-- drawing the food or whatever
 function drawCell(x, y)
     love.graphics.rectangle('fill', (x - 1) * cellSize, (y - 1) * cellSize, cellSize - 1, cellSize - 1)
 end
 
+-- the rotation function to rotate the food
 function rotateRect(mode, x, y, w, h, a, ox, oy)
   ox = ox or 0
   oy = oy or 0
