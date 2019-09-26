@@ -1,7 +1,6 @@
 -- setting the fonts
 mainFont = love.graphics.newFont("Quantum.otf", 30)
 bigFont = love.graphics.newFont("Quantum.otf", 60)
-
 smallFont = love.graphics.newFont("KeepCalm.ttf", 15)
 
 function printStats()
@@ -25,6 +24,12 @@ end -- end printStats function
 function readOut()
     love.graphics.setColor(1,1,1)
     love.graphics.setFont(smallFont)
-    love.graphics.print('speed' ..speedLevel, 10, 400)
-    love.graphics.print('level: '..level, 10, 420)
+    --love.graphics.print('speed' ..speedLevel, 10, 400)
+    --love.graphics.print('level: '..level, 10, 420)
+end
+
+function tweenWord()
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.setFont(smallFont)
+    love.graphics.print('TWEEEEEN!', food.x + 30, food.y + 30)
 end

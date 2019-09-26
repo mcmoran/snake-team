@@ -87,7 +87,7 @@ function love.load()
         -- setting the new food position
         foodPosition = possibleFoodPositions[math.random(1, #possibleFoodPositions)]
         foodFlux(food, foodPosition.x, foodPosition.y) -- this doesn't work, but it should flux the food location
-
+        --tweenWord()
         -- after X food eaten, increase the levels
 
         -- increase level and colorLevel
@@ -277,6 +277,7 @@ function love.draw()
 
     printStats()
     readOut()
+
 
 end -- end draw
 
