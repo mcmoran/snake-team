@@ -27,7 +27,7 @@ function love.load()
     a = 0
     rfactor = 0.75 -- rotation speed
 
-    -- creating a food table object
+    -- creating a food table object for flux effect
     food = {x = 0, y = 0}
 
     -- segments of the snake to start the game (3 of them)
@@ -85,28 +85,33 @@ function love.load()
         end -- end for foodX
 
         -- setting the new food position
-        foodPosition = possibleFoodPositions[math.random(#possibleFoodPositions)]
+        foodPosition = possibleFoodPositions[math.random(1, #possibleFoodPositions)]
         foodFlux(food, foodPosition.x, foodPosition.y) -- this doesn't work, but it should flux the food location
 
         -- after X food eaten, increase the levels
 
         -- increase level and colorLevel
-        if foodLevel == 5 then
+        if foodLevel == 3 then
             foodLevel = 0
             level = level + 1
             levelChange = true
+            colorLevel = colorLevel + 1
         end
 
         -- increase speed every 3 levels
         if level % 3 == 0 then
-            speedLevel = speedLevel + 0.02
-            speed = speed + 1
+            if foodLevel == 0 then
+                speedLevel = speedLevel + 0.02
+                speed = speed + 1
+            end
         end
 
         foodLevel = foodLevel + 1
         foodEaten = foodEaten + 1
 
     end -- end move food function
+
+
 
     -- reset function
     function reset()
@@ -261,7 +266,7 @@ function love.draw()
     -- drawing food
     love.graphics.setColor(lineColorArray[i])
     --drawCell(foodPosition.x, foodPosition.y) -- this is the old way
-    rotateRect('fill', (foodPosition.x - 1) * cellSize, (foodPosition.y - 1) * cellSize, cellSize, cellSize, a, ox, oy)
+    rotateRect('fill', (food.x - 1) * cellSize, (food.y - 1) * cellSize, cellSize, cellSize, a, ox, oy)
 
     -- adding the glow effect to the canvas
     love.graphics.setCanvas()
@@ -270,21 +275,8 @@ function love.draw()
         love.graphics.draw(canvas, 0, 0, 0, 1, 1)
     end)
 
-    love.graphics.setColor(1, 1, 1, .5)
-    love.graphics.setFont(mainFont)
-    love.graphics.print('level', 10, 5)
-    love.graphics.print('speed', 100, 5)
-    love.graphics.print('length', 700, 5)
-
-    love.graphics.setFont(bigFont)
-    love.graphics.print(level, 30, 30)
-    love.graphics.print(speed + 1, 120, 30)
-    if foodEaten < 10 then
-        love.graphics.print('0'..foodEaten + 2, 710, 30)
-    else
-        love.graphics.print(foodEaten + 2, 710, 30)
-    end
-    --love.graphics.print(foodEaten + 2, 710, 30)
+    printStats()
+    readOut()
 
 end -- end draw
 
@@ -337,5 +329,6 @@ function rotateRect(mode, x, y, w, h, a, ox, oy)
 end
 
 function foodFlux(obj, fx, fy)
-    flux.to(obj, 1, {x = fx}, {y = fy})
+    flux.to(obj, 0.5, {x = fx, y = fy}):ease('linear'):delay(0.2)
+    --flux.to(obj, 0.1, {colors}):after(obj, 0.5):ease('linear'):delay(0.2)
 end
