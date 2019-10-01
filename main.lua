@@ -96,10 +96,13 @@ function love.load()
             level = level + 1
             levelChange = true
             colorLevel = colorLevel + 1
+            if colorLevel == 9 then
+              colorLevel = 1
+            end
         end
 
         -- increase speed every 3 levels
-        if level % 3 == 0 then
+        if level % 2 == 0 then
             if foodLevel == 0 then
                 speedLevel = speedLevel + 0.02
                 speed = speed + 1
@@ -125,6 +128,7 @@ function love.load()
         foodLevel = 0
         speedLevel = 0
         foodEaten = 0
+        colorLevel = 1
         speed = 0
         moveFood()
     end -- end function
@@ -244,7 +248,7 @@ function love.draw()
         for column = 1, gridYCount do
             love.graphics.setColor(tileColorArray[row * column]) -- set box color
             love.graphics.rectangle('fill', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
-                love.graphics.setColor(lineColorArray[level]) -- set border color
+                love.graphics.setColor(lineColorArray[colorLevel]) -- set border color
                 love.graphics.rectangle('line', (row - 1) * cellSize, (column - 1) * cellSize, cellSize, cellSize)
         end
     end
